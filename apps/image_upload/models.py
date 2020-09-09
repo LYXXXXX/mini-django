@@ -8,7 +8,6 @@ from utils import CONSTANT
 
 
 class UploadImage(BaseModel):
-    id = models.IntegerField(primary_key=True, verbose_name='图片ID')
     filename = models.CharField(max_length=252, default="", verbose_name='图片文件名')
     file_md5 = models.CharField(max_length=128, verbose_name='图片MD5')
     file_type = models.CharField(max_length=32, verbose_name='图片类型')
@@ -32,13 +31,13 @@ class UploadImage(BaseModel):
 
     def get_image_url(self):
         filename = self.file_md5 + '.' + self.file_type
-        url = CONSTANT.WEB_HOST_NAME + CONSTANT.WEB_IMAGE_SERVER_PATH + self.user_id + '/' + filename
+        url = CONSTANT.WEB_HOST_NAME + CONSTANT.WEB_IMAGE_SERVER_PATH + str(self.user_id) + '/' + filename
         return url
 
     # 获取本图片在本地的位置，即你的文件系统的路径，图片会保存在这个路径下
     def get_image_path(self):
         filename = self.file_md5 + '.' + self.file_type
-        path = CONSTANT.WEB_IMAGE_SERVER_PATH + self.user_id + '/' + filename
+        path = CONSTANT.WEB_IMAGE_SERVER_PATH + str(self.user_id) + '/' + filename
         return path
 
     class Meta:
@@ -52,8 +51,8 @@ class UploadImage(BaseModel):
             self.file_size) + '-' + 'filemd5:' + str(self.file_md5)
         return s
 
+
 class Image(models.Model):
-    id = models.IntegerField(primary_key=True)
     url = models.URLField(max_length=60)
 
     class Meta:

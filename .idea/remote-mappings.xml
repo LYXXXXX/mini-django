@@ -4,6 +4,7 @@
     <list>
       <list>
         <remote-mappings server-id="python@1606c5ab-3a73-438a-8a22-45d59f7cd693" />
+        <remote-mappings server-id="python@sftp://lyxxxx@123.57.242.170:22/home/lyxxxx/.virtualenvs/mini/bin/python3" />
       </list>
     </list>
   </component>

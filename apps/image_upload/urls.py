@@ -19,5 +19,6 @@ from . import views
 app_name = 'upload_image'
 
 urlpatterns = [
-    path('getimage/',views.getimage)
+    path('getimage/', views.GetImage.as_view()),
+    path('uploadImage/', views.UploadImageView.as_view())
 ]

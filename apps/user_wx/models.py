@@ -2,11 +2,12 @@ from django.db import models
 from utils.BaseModel import BaseModel
 # Create your models here.
 
+
 # 用户表
 class UserWX(BaseModel):
-    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=30, null=True, verbose_name='姓名')
     nickname = models.CharField(max_length=30, null=True, verbose_name='昵称')
+    avatar = models.URLField(max_length=100, verbose_name='头像')
     wx_account = models.CharField(max_length=60, null=True, unique=True, verbose_name='微信号')
     openid = models.CharField(max_length=60, null=False, unique=True, verbose_name='微信唯一标志')
     age = models.IntegerField(default='18', verbose_name='年龄')
@@ -24,9 +25,9 @@ class UserWX(BaseModel):
     def __str__(self):
         return self.id
 
+
 # 兴趣爱好表
 class Hobby(BaseModel):
-    id = models.IntegerField(primary_key=True)
     hobby = models.CharField(max_length=30, verbose_name='兴趣爱好')
 
     class Meta:
@@ -37,9 +38,9 @@ class Hobby(BaseModel):
     def __str__(self):
         return self.hobby
 
+
 # 用户和兴趣爱好的中间表
 class User2Hobby(BaseModel):
-    id = models.IntegerField(primary_key=True)
     user = models.ForeignKey(UserWX, on_delete=models.CASCADE, verbose_name='用户ID')
     hobby = models.ForeignKey(Hobby, on_delete=models.CASCADE, verbose_name='爱好ID')
 
@@ -51,8 +52,8 @@ class User2Hobby(BaseModel):
     def __str__(self):
         return self.hobby_id
 
+
 class Word(BaseModel):
-    id = models.IntegerField(primary_key=True)
     content = models.CharField(max_length=360, default='这个人很懒，什么也没写', null=True, blank=True, verbose_name='个性签名')
     user = models.OneToOneField(UserWX, on_delete=models.CASCADE, unique=True, verbose_name='用户id')
 
@@ -64,8 +65,8 @@ class Word(BaseModel):
     def __str__(self):
         return self.content
 
+
 class Match(BaseModel):
-    id = models.IntegerField(primary_key=True)
     user = models.ForeignKey(UserWX, on_delete=models.CASCADE, verbose_name='用户ID')
     target_id = models.IntegerField(verbose_name='目标ID')
     relationship = models.BooleanField(null=True, default="", verbose_name='匹配关系')
@@ -78,6 +79,6 @@ class Match(BaseModel):
         verbose_name_plural = verbose_name
 
     def __str__(self):
-        s = '目标id:' + self.target_id + '匹配结果:' + self.relationship + '关注：' + self.attention
+        s = '目标id:' + str(self.target_id) + '匹配结果:' + str(self.relationship) + '关注：' + str(self.attention)
         print(s)
-        return self.target_id
+        return str(self.target_id)

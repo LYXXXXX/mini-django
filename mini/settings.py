@@ -41,13 +41,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user_wx',
     'image_upload',
+    'news',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -85,10 +86,54 @@ DATABASES = {
             'read_default_file': 'utils/dbs/mysql.cnf'
         },
         # 'NAME': 'mini',
-        # 'USER': 'root',
-        # 'PASSWORD': 'qwe123',
+        # 'USER': 'lyxxxx',
+        # 'PASSWORD': 'lyx19950225zZ.',
         # 'HOST': '127.0.0.1',
         # 'PORT': '3306'
+    }
+}
+
+# 自定义日志器
+LOGGING = {
+    # 版本
+    'version': 1,
+    # 是否禁用已存在的日志器
+    'disable_existing_loggers': False, # 不禁用已存在的日志器
+    'formatters': {     # 日志输出格式
+        'verbose': {    # 指定复杂格式
+            'format': '%(levelname)s %(asctime)s %(module)s %(lineno)d %(message)s'
+        },
+        'simple': {    # 简单格式
+            'format': '%(levelname)s %(module)s %(lineno)d %(message)s'
+        },
+    },
+    'filters': {    # 过滤器
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'handlers': {   # 处理器
+        'console': {    # 终端
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+        'file': {   # 文件
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': os.path.join(BASE_DIR, "logs/mini.log"),  # 日志文件的位置
+            'maxBytes': 300 * 1024 * 1024,
+            'backupCount': 10,   # 保留文件个数
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'mini': {  # 定义了一个名为django的日志器
+            'handlers': ['console', 'file'],  # 表示可以往终端和文件写入
+            'propagate': True,
+            'level': 'INFO',  # 日志器接收的最低日志级别
+        },
     }
 }
 
