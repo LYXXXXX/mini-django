@@ -7,9 +7,11 @@ from utils.BaseModel import BaseModel
 class UserWX(BaseModel):
     name = models.CharField(max_length=30, null=True, verbose_name='姓名')
     nickname = models.CharField(max_length=30, null=True, verbose_name='昵称')
-    avatar = models.URLField(max_length=100, verbose_name='头像')
+    avatar = models.URLField(verbose_name='头像')
     wx_account = models.CharField(max_length=60, null=True, unique=True, verbose_name='微信号')
     openid = models.CharField(max_length=60, null=False, unique=True, verbose_name='微信唯一标志')
+    session_key = models.CharField(max_length=60, null=False, unique=True, verbose_name='登录秘钥')
+    user_uuid = models.CharField(max_length=60, null=False, unique=True, verbose_name='登录态标志')
     age = models.IntegerField(default='18', verbose_name='年龄')
     sex = models.BooleanField(default=True, verbose_name='性别')
     country = models.CharField(max_length=30, default='中国', verbose_name='国家')

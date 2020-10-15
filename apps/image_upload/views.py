@@ -20,7 +20,8 @@ class UploadImageView(View):
         if not json_data:
             return to_json_data(errno=Code.NODATA, errmsg=error_map[Code.NODATA])
         param = json.loads(request.POST.get('Param'))
-        is_top = param['top']
+        # is_top = param['top']
+        is_top = param.get('top', False)
         file = request.FILES.get('img', None)
         user_id = param['id']
 
@@ -63,8 +64,9 @@ class UploadImageView(View):
         # 记录日志
         loggers.info("图片上传成功！[md5:%s  id:%s]" % (md5, uploadImg.id))
 
-        # 返回图片的url
-        return to_json_data(errno=Code.OK, errmsg=error_map[Code.OK], data={"url": uploadImg.get_image_url()})
+        # 返回图片的url和id
+        return to_json_data(errno=Code.OK, errmsg=error_map[Code.OK], data={"url": uploadImg.get_image_url(),
+                                                                            "image_id": uploadImg.id})
 
 
 # 获取文件的视图
